@@ -5,49 +5,54 @@ import (
 	"net/http"
 
 	"day_1/api"
+	"day_1/middleware"
 	"day_1/models"
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	defaultHandler := http.DefaultServeMux
-	customHandler := http.HandlerFunc(
-		func(w http.ResponseWriter, r *http.Request) {
-			log.Println("Got request:", r.RequestURI)
-			defaultHandler.ServeHTTP(w, r)
-		},
-	)
+	log.Println("Trying to start server")
+	router := mux.NewRouter()
+	router.Use(middleware.LoggingMiddleware)
+	router.Use(middleware.ErrorHandlingMiddleware)
 
 	info := &models.Info{
 		Name:    "API",
 		Version: "1.0.0",
 	}
 
-	http.HandleFunc(
+	router.HandleFunc(
 		"/info",
 		api.InfoHandler(info),
-	)
-	http.HandleFunc(
+	).Methods("GET")
+
+	router.HandleFunc(
 		"/second", api.CalculatorHandler,
-	)
-	http.HandleFunc(
+	).Methods("GET")
+
+	router.HandleFunc(
 		"/first", api.CalculatorHandler,
-	)
-	http.HandleFunc(
+	).Methods("GET")
+
+	router.HandleFunc(
 		"/add", api.CalculatorHandler,
-	)
-	http.HandleFunc(
+	).Methods("GET")
+
+	router.HandleFunc(
 		"/sub", api.CalculatorHandler,
-	)
-	http.HandleFunc(
+	).Methods("GET")
+
+	router.HandleFunc(
 		"/mul", api.CalculatorHandler,
-	)
-	http.HandleFunc(
+	).Methods("GET")
+
+	router.HandleFunc(
 		"/div", api.CalculatorHandler,
-	)
+	).Methods("GET")
 
 	const serverPort = ":8080"
 	go func() {
-		err := http.ListenAndServe(serverPort, customHandler)
+		err := http.ListenAndServe(serverPort, router)
 		if err != nil {
 			log.Fatal(err)
 		}

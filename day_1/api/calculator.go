@@ -9,8 +9,8 @@ import (
 )
 
 func CalculatorHandler(w http.ResponseWriter, r *http.Request) {
-	uri := r.RequestURI
-	result := CalculateResult(uri)
+	utils.SetOKResult(w)
+	result := CalculateResult(r.RequestURI)
 	err := json.NewEncoder(w).Encode(
 		models.APIResponse{Result: result},
 	)
