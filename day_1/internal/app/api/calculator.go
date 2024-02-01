@@ -4,12 +4,12 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"day_1/models"
-	"day_1/utils"
+	"day_1/internal/models"
+	utils2 "day_1/internal/utils"
 )
 
 func CalculatorHandler(w http.ResponseWriter, r *http.Request) {
-	utils.SetOKResult(w)
+	utils2.SetOKResult(w)
 	result := CalculateResult(r.RequestURI)
 	err := json.NewEncoder(w).Encode(
 		models.APIResponse{Result: result},
@@ -23,15 +23,15 @@ func CalculateResult(uri string) int {
 	var number int
 	switch {
 	case uri == "/first" || uri == "/second":
-		number = utils.GetRandomNumber()
+		number = utils2.GetRandomNumber()
 	case uri == "/add":
-		number = utils.GetRandomNumber() + utils.GetRandomNumber()
+		number = utils2.GetRandomNumber() + utils2.GetRandomNumber()
 	case uri == "/sub":
-		number = utils.GetRandomNumber() - utils.GetRandomNumber()
+		number = utils2.GetRandomNumber() - utils2.GetRandomNumber()
 	case uri == "/mul":
-		number = utils.GetRandomNumber() * utils.GetRandomNumber()
+		number = utils2.GetRandomNumber() * utils2.GetRandomNumber()
 	case uri == "/div":
-		number = utils.GetRandomNumber() / utils.GetRandomNumber()
+		number = utils2.GetRandomNumber() / utils2.GetRandomNumber()
 	}
 	return number
 }

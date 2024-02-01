@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"day_1/models"
-	"day_1/utils"
+	"day_1/internal/models"
+	"day_1/internal/utils"
 )
 
 func InfoHandler(info *models.Info) http.HandlerFunc {

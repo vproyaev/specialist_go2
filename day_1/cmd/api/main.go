@@ -4,13 +4,17 @@ import (
 	"log"
 	"net/http"
 
-	"day_1/api"
-	"day_1/middleware"
-	"day_1/models"
+	"day_1/internal/app/api"
+	"day_1/internal/middleware"
+	"day_1/internal/models"
 	"github.com/gorilla/mux"
 )
 
 func main() {
+	// TODO: Add config init
+	// TODO: Add docs
+	// TODO: Change server initialization
+
 	log.Println("Trying to start server")
 	router := mux.NewRouter()
 	router.Use(middleware.LoggingMiddleware)
